@@ -5,7 +5,18 @@ class CoveragePeekTest < Minitest::Test
     refute_nil ::CoveragePeek::VERSION
   end
 
-  def test_it_does_something_useful
-    assert false
+  def test_peek
+    require 'coverage.so'
+    Coverage.start
+    assert(require_relative('_lib/coverage_test'))
+    before = Coverage.peek_result
+    assert_kind_of(Hash, before)
+    f = before.keys.find { |k| k.end_with?("_lib/coverage_test.rb") }
+    assert(f)
+    assert_kind_of(Array, before[f])
+    CoveragePeekTestHelper.a_method
+    after = Coverage.peek_result
+    assert_kind_of(Hash, before)
+    refute_equal(before[f], after[f])
   end
 end
