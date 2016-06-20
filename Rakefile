@@ -15,4 +15,4 @@ Rake::ExtensionTask.new("coverage_peek") do |ext|
   ext.lib_dir = "lib/coverage_peek"
 end
 
-task :default => [:clobber, :compile, :spec]
+task :default => [:clobber, :compile, :test]
