@@ -1,4 +1,6 @@
 require 'test_helper'
+require 'coverage.so'
+Coverage.start
 
 class CoveragePeekTest < Minitest::Test
   def test_that_it_has_a_version_number
@@ -6,8 +8,6 @@ class CoveragePeekTest < Minitest::Test
   end
 
   def test_peek
-    require 'coverage.so'
-    Coverage.start
     assert(require_relative('_lib/coverage_test'))
     before = Coverage.peek_result
     assert_kind_of(Hash, before)
@@ -18,5 +18,9 @@ class CoveragePeekTest < Minitest::Test
     after = Coverage.peek_result
     assert_kind_of(Hash, before)
     refute_equal(before[f], after[f])
+  end
+
+  def test_peek_filtered
+    Coverage.peek_result_filtered
   end
 end
